@@ -7,10 +7,10 @@ import javax.swing.border.LineBorder
 
 class MainWindow : JFrame("Auction Sniper") {
     companion object {
-        const val STATUS_JOINING = "Joining"
-        const val STATUS_LOST = "Lost"
         const val MAIN_WINDOW_NAME = "Auction Sniper Main"
         const val SNIPER_STATUS_NAME = "sniper status"
+        const val STATUS_JOINING = "Joining"
+        const val STATUS_LOST = "Lost"
     }
 
     private val sniperStatus = createLabel(STATUS_JOINING)
@@ -28,5 +28,9 @@ class MainWindow : JFrame("Auction Sniper") {
         result.name = SNIPER_STATUS_NAME
         result.border = LineBorder(Color.BLACK)
         return result
+    }
+
+    fun showStatus(status: String) {
+        sniperStatus.text = status
     }
 }
