@@ -3,9 +3,11 @@ package auctionsniper
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.packet.Message
+import java.awt.event.WindowAdapter
+import java.awt.event.WindowEvent
 import javax.swing.SwingUtilities
 
-class Main {
+class Main : AuctionEventListener {
     companion object {
         private const val ARG_HOSTNAME = 0
         private const val ARG_USERNAME = 1
@@ -25,7 +27,7 @@ class Main {
         private fun connection(hostname: String, username: String, password: String): XMPPConnection {
             val connection = XMPPConnection(hostname)
             connection.connect()
-            connection.login(username, password)
+            connection.login(username, password, AUCTION_RESOURCE)
 
             return connection
         }
@@ -42,13 +44,25 @@ class Main {
     }
 
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
-        val chat =
-            connection.chatManager.createChat(auctionId(itemId, connection)) { _: Chat, _: Message ->
-                SwingUtilities.invokeLater {
-                    ui.showStatus(MainWindow.STATUS_LOST)
-                }
+        disconnectWhenUICloses(connection)
+
+        val chat = connection.chatManager.createChat(auctionId(itemId, connection), AuctionMessageTranslator(this))
+
+        chat.sendMessage("SOLVersion: 1.1; Command: JOIN;")
+    }
+
+    private fun disconnectWhenUICloses(connection: XMPPConnection) {
+        ui.addWindowListener(object: WindowAdapter() {
+            override fun windowClosed(e: WindowEvent?) {
+                connection.disconnect()
             }
-        chat.sendMessage(Message())
+        })
+    }
+
+    override fun auctionClosed() {
+        SwingUtilities.invokeLater {
+            ui.showStatus(MainWindow.STATUS_LOST)
+        }
     }
 
     private fun startUserInterface() {
