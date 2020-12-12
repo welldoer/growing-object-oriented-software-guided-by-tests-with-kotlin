@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.4.10"
     id("org.sonarqube") version "3.0"
+    jacoco
 }
 
 sonarqube {
@@ -10,6 +11,12 @@ sonarqube {
         property("sonar.projectKey", "welldoer_growing-object-oriented-software-guided-by-tests-with-kotlin")
         property("sonar.organization", "welldoer-github")
         property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
     }
 }
 
@@ -44,6 +51,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.withType<KotlinCompile>() {
