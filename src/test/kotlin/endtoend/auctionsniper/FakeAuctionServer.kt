@@ -12,7 +12,7 @@ import java.lang.String.format
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.TimeUnit
 
-class FakeAuctionServer(itemId: String) {
+class FakeAuctionServer(internal val itemId: String) {
     companion object {
         const val ITEM_ID_AS_LOGIN = "auction-%s"
         const val AUCTION_RESOURCE = "Auction"
@@ -20,7 +20,6 @@ class FakeAuctionServer(itemId: String) {
         const val AUCTION_PASSWORD = "auction"
     }
 
-    internal val itemId: String = itemId
     private val connection: XMPPConnection
     private val messageListener: SingleMessageListener = SingleMessageListener()
     private var currentChat: Chat? = null
