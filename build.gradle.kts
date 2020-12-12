@@ -2,6 +2,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.10"
+    id("org.sonarqube") version "3.0"
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "welldoer_growing-object-oriented-software-guided-by-tests-with-kotlin")
+        property("sonar.organization", "welldoer-github")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 
 group = "net.blogjava.welldoer"
