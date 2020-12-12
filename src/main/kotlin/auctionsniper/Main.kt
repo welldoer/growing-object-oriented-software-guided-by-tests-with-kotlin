@@ -59,6 +59,10 @@ class Main : SniperListener {
         })
     }
 
+    override fun sniperBidding() {
+        TODO("Not yet implemented")
+    }
+
     override fun sniperLost() {
         SwingUtilities.invokeLater {
             ui.showStatus(MainWindow.STATUS_LOST)
