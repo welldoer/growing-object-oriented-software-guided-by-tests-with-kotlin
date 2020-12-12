@@ -59,6 +59,10 @@ class Main : AuctionEventListener {
         })
     }
 
+    override fun currentPrice(price: Int, increment: Int) {
+        TODO("Not yet implemented")
+    }
+
     override fun auctionClosed() {
         SwingUtilities.invokeLater {
             ui.showStatus(MainWindow.STATUS_LOST)
