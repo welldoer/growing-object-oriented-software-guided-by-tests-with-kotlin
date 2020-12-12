@@ -32,6 +32,11 @@ repositories {
 }
 
 dependencies {
+    implementation("org.igniterealtime.smack:smack:3.1.0")
+    implementation("org.igniterealtime.smack:smackx:3.1.0")
+
+    testImplementation("com.googlecode.windowlicker:windowlicker-swing:r268")
+
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
