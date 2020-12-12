@@ -2,7 +2,7 @@ package unit.auctionsniper
 
 import auctionsniper.AuctionSniper
 import auctionsniper.SniperListener
-import endtoend.auctionsniper.Auction
+import auctionsniper.Auction
 import org.jmock.junit5.JUnit5Mockery
 import org.junit.jupiter.api.Test
 
@@ -10,7 +10,7 @@ class AuctionSniperTest {
     private val context = JUnit5Mockery()
     private val sniperListener = context.mock(SniperListener::class.java)
     private val auction = context.mock(Auction::class.java)
-    private val sniper = AuctionSniper(sniperListener)
+    private val sniper = AuctionSniper(auction, sniperListener)
 
     @Test
     fun `reports lost when auction closes`() {
