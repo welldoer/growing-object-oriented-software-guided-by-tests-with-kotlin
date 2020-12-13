@@ -19,16 +19,6 @@ class AuctionMessageTranslator(
         }
     }
 
-    private fun unpackEventFrom(message: Message): HashMap<String, String> {
-        val event = HashMap<String, String>()
-        for (element in message.body.split(";").dropLastWhile { it.isEmpty() }) {
-            val pair = element.split(":").map { it.trim() }
-            event[pair[0]] = pair[1]
-        }
-
-        return event
-    }
-
     private class AuctionEvent {
         companion object {
             fun from(messageBody: String): AuctionEvent {
