@@ -4,6 +4,8 @@ import auctionsniper.Main
 import auctionsniper.MainWindow.Companion.STATUS_BIDDING
 import auctionsniper.MainWindow.Companion.STATUS_JOINING
 import auctionsniper.MainWindow.Companion.STATUS_LOST
+import auctionsniper.MainWindow.Companion.STATUS_WINNING
+import auctionsniper.MainWindow.Companion.STATUS_WON
 import endtoend.auctionsniper.FakeAuctionServer.Companion.AUCTION_RESOURCE
 import endtoend.auctionsniper.FakeAuctionServer.Companion.XMPP_HOSTNAME
 
@@ -37,8 +39,16 @@ class ApplicationRunner {
         driver.showsSniperStatus(STATUS_BIDDING)
     }
 
+    fun hasShownSniperisWinning() {
+        driver.showsSniperStatus(STATUS_WINNING)
+    }
+
     fun showsSniperHasLostAuction() {
         driver.showsSniperStatus(STATUS_LOST)
+    }
+
+    fun showsSniperHasWonAuction() {
+        driver.showsSniperStatus(STATUS_WON)
     }
 
     fun stop() {

@@ -29,7 +29,7 @@ class FakeAuctionServer(internal val itemId: String) {
         connection = XMPPConnection(XMPP_HOSTNAME)
     }
 
-    fun StartSellingItem() {
+    fun startSellingItem() {
         connection.connect()
 
         connection.login(format(ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, AUCTION_RESOURCE)
