@@ -13,12 +13,13 @@ import org.junit.jupiter.api.extension.RegisterExtension
 class AuctionMessageTranslatorTest {
     companion object {
         val UNUSED_CHAT: Chat? = null
+        const val SNIPER_ID = "sniper"
     }
 
 //    @RegisterExtension
     val context = JUnit5Mockery()
     private val listener = context.mock(AuctionEventListener::class.java)
-    private val translator = AuctionMessageTranslator(listener)
+    private val translator = AuctionMessageTranslator(SNIPER_ID, listener)
 
     @Test
     fun `notifies auction closed when close message received`() {

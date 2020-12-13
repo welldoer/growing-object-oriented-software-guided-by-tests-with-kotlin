@@ -5,8 +5,9 @@ import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.packet.Message
 
-class AuctionMessageTranslator(listener: AuctionEventListener) : MessageListener {
-    private val listener = listener
+class AuctionMessageTranslator(
+    private val sniperId: String,
+    private val listener: AuctionEventListener) : MessageListener {
 
     override fun processMessage(chat: Chat?, message: Message) {
         val event = AuctionEvent.from(message.body)
@@ -14,7 +15,7 @@ class AuctionMessageTranslator(listener: AuctionEventListener) : MessageListener
         if ("CLOSE" == type) {
             listener.auctionClosed()
         } else if ("PRICE" == type) {
-            listener.currentPrice(event.currentPrice(), event.increment(), PriceSource.FromOtherBidder)
+            listener.currentPrice(event.currentPrice(), event.increment(), event.isFrom(sniperId))
         }
     }
 
@@ -52,6 +53,18 @@ class AuctionMessageTranslator(listener: AuctionEventListener) : MessageListener
 
         fun currentPrice(): Int {
             return getInt("CurrentPrice")
+        }
+
+        fun isFrom(sniperId: String): PriceSource {
+            return if (sniperId == bidder()) {
+                PriceSource.FromSniper
+            } else {
+                PriceSource.FromOtherBidder
+            }
+        }
+
+        private fun bidder(): String {
+            return get("Bidder")
         }
 
         fun increment(): Int {
