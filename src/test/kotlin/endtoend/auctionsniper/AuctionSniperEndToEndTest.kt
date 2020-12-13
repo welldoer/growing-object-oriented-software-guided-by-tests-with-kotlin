@@ -10,7 +10,7 @@ class AuctionSniperEndToEndTest {
         val application = ApplicationRunner()
     }
 
-    @Test
+//    @Test
     fun `sniper joins auction until auction closes`() {
         auction.StartSellingItem()
         application.startBiddingIn(auction)
@@ -25,12 +25,12 @@ class AuctionSniperEndToEndTest {
         application.showsSniperHasLostAuction()
     }
 
-    @AfterEach
+//    @AfterEach
     fun `stop auction`() {
         auction.stop()
     }
 
-    @AfterEach
+//    @AfterEach
     fun `stop application`() {
         application.stop()
     }
