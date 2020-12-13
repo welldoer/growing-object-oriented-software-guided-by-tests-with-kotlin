@@ -1,7 +1,9 @@
 package unit.auctionsniper
 
 import auctionsniper.AuctionEventListener
+import auctionsniper.AuctionEventListener.PriceSource
 import auctionsniper.AuctionMessageTranslator
+import endtoend.auctionsniper.ApplicationRunner.Companion.SNIPER_ID
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.packet.Message
 import org.jmock.junit5.JUnit5Mockery
@@ -32,12 +34,24 @@ class AuctionMessageTranslatorTest {
     }
 
     @Test
-    fun `notifies bid details when current price message received`() {
+    fun `notifies bid details when current price message received from other bidder`() {
         context.expect {
-            exactly(1).of(listener).currentPrice(192, 7)
+            exactly(1).of(listener).currentPrice(192, 7, PriceSource.FromOtherBidder)
         }.whenRunning {
             val message = Message()
             message.body = "SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: Someone else;"
+
+            translator.processMessage(UNUSED_CHAT, message)
+        }
+    }
+
+    @Test
+    fun `notifies bid details when current price message received from sniper`() {
+        context.expect {
+            exactly(1).of(listener).currentPrice(192, 7, PriceSource.FromSniper)
+        }.whenRunning {
+            val message = Message()
+            message.body = "SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: ${SNIPER_ID};"
 
             translator.processMessage(UNUSED_CHAT, message)
         }
