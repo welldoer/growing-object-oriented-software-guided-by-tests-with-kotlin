@@ -8,7 +8,7 @@ import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.SwingUtilities
 
-class Main : SniperListener {
+class Main {
     companion object {
         private const val ARG_HOSTNAME = 0
         private const val ARG_USERNAME = 1
@@ -57,7 +57,7 @@ class Main : SniperListener {
 
         val auction = XMPPAuction(chat)
 
-        chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, this)))
+        chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, SniperStateDisplayer(ui))))
 
         auction.join()
     }
@@ -68,18 +68,6 @@ class Main : SniperListener {
                 connection.disconnect()
             }
         })
-    }
-
-    override fun sniperBidding() {
-        SwingUtilities.invokeLater {
-            ui.showStatus(MainWindow.STATUS_BIDDING)
-        }
-    }
-
-    override fun sniperLost() {
-        SwingUtilities.invokeLater {
-            ui.showStatus(MainWindow.STATUS_LOST)
-        }
     }
 
     private fun startUserInterface() {
