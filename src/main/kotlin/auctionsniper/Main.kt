@@ -2,6 +2,7 @@ package auctionsniper
 
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
+import org.jivesoftware.smack.XMPPException
 import org.jivesoftware.smack.packet.Message
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
@@ -52,7 +53,19 @@ class Main : SniperListener {
             }
         }
 
-        val chat = connection.chatManager.createChat(auctionId(itemId, connection), AuctionMessageTranslator(AuctionSniper(nullAuction, this)))
+        val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
+
+        val auction = object : Auction {
+            override fun bid(price: Int) {
+                try {
+                    chat.sendMessage("SOLVersion: 1.1; Command: BID; Price: $price;")
+                } catch (e: XMPPException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, this)))
 
         chat.sendMessage("SOLVersion: 1.1; Command: JOIN;")
     }

@@ -51,7 +51,7 @@ class FakeAuctionServer(internal val itemId: String) {
     }
 
     fun reportPrice(price: Int, increment: Int, bidder: String) {
-        currentChat?.sendMessage("SOLVersion: 1.1; Event: PRICE; Current Price: $price; Increment: $increment; bidder: $bidder;")
+        currentChat?.sendMessage("SOLVersion: 1.1; Event: PRICE; CurrentPrice: $price; Increment: $increment; bidder: $bidder;")
     }
 
     fun hasReceivedBid(bid: Int, sniperId: String) {
@@ -72,7 +72,7 @@ class SingleMessageListener(
     }
 
     fun receivesAMessage(matcher: Matcher<String>) {
-        val message = messages.poll(5, TimeUnit.SECONDS)
+        val message = messages.poll(10, TimeUnit.SECONDS)
 
         MatcherAssert.assertThat("Message", message, CoreMatchers.notNullValue())
         MatcherAssert.assertThat(message.body, matcher)

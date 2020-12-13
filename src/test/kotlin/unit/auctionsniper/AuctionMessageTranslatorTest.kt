@@ -13,7 +13,7 @@ class AuctionMessageTranslatorTest {
         val UNUSED_CHAT: Chat? = null
     }
 
-    @RegisterExtension
+//    @RegisterExtension
     val context = JUnit5Mockery()
     private val listener = context.mock(AuctionEventListener::class.java)
     private val translator = AuctionMessageTranslator(listener)
@@ -37,7 +37,7 @@ class AuctionMessageTranslatorTest {
             exactly(1).of(listener).currentPrice(192, 7)
         }.whenRunning {
             val message = Message()
-            message.body = "SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7, Bidder: Someone else;"
+            message.body = "SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: Someone else;"
 
             translator.processMessage(UNUSED_CHAT, message)
         }
